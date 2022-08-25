@@ -75,6 +75,8 @@ export function mqttConnect(onMessageArrived) {
 				JSON.stringify({
 					connected: true,
 					name: get(hostConfig).deviceName || "Computer",
+					acceptsMouseInput: get(hostConfig).acceptMouseInput ?? false,
+					acceptsKeyboardInput: get(hostConfig).acceptKeyboardInput ?? false,
 				}),
 				0,
 				true
@@ -93,6 +95,8 @@ hostConfig.subscribe((config) => {
 			JSON.stringify({
 				connected: true,
 				name: config.deviceName || "Computer",
+				acceptsMouseInput: config.acceptMouseInput ?? false,
+				acceptsKeyboardInput: config.acceptKeyboardInput ?? false,
 			}),
 			0,
 			true

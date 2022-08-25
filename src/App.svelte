@@ -59,8 +59,14 @@
 			};
 			e.channel.onmessage = (e) => {
 				// console.log("WebRTC: Data channel message", e);
-				if ($hostConfig.acceptMouseInput ?? false)
-					ipcRenderer.invoke("handleMouse", e.data);
+				const data = JSON.parse(e.data);
+				if (data.type === "mouse" && ($hostConfig.acceptMouseInput ?? false))
+					ipcRenderer.invoke("handleMouse", data);
+				if (
+					data.type === "keyboard" &&
+					($hostConfig.acceptKeyboardInput ?? false)
+				)
+					ipcRenderer.invoke("handleKeyboard", data);
 			};
 		};
 		pc.onicecandidate = (e) => {
@@ -194,7 +200,7 @@
 					/>
 				</Labeled>
 			{/if}
-			<Labeled label="Auto Connect? ">
+			<Labeled label="Auto connect? ">
 				<input type="checkbox" bind:checked={$mqttConfig.autoConnect} />
 			</Labeled>
 			<button on:click={() => mqttConnect(onMessageArrived)}>Connect now</button
@@ -211,8 +217,11 @@
 					placeholder="Computer"
 				/>
 			</Labeled>
-			<Labeled label="Accept Mouse Input? ">
+			<Labeled label="Accept mouse input? ">
 				<input type="checkbox" bind:checked={$hostConfig.acceptMouseInput} />
+			</Labeled>
+			<Labeled label="Accept keyboard input? ">
+				<input type="checkbox" bind:checked={$hostConfig.acceptKeyboardInput} />
 			</Labeled>
 		</div>
 	</div>

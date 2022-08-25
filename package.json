@@ -11,17 +11,17 @@
 	"license": "ISC",
 	"dependencies": {
 		"@nut-tree/nut-js": "^2.2.0",
-		"@sveltejs/vite-plugin-svelte": "^1.0.2",
 		"concurrently": "^7.3.0",
 		"cross-env": "^7.0.3",
-		"electron": "^20.0.3",
 		"paho-mqtt": "^1.1.0",
 		"sass": "^1.54.5",
 		"svelte": "^3.49.0",
-		"vite": "^3.0.9",
-		"vite-plugin-electron": "^0.9.1"
+		"vite": "^3.0.9"
 	},
 	"devDependencies": {
+		"@sveltejs/vite-plugin-svelte": "^1.0.2",
+		"vite-plugin-electron": "^0.9.1",
+		"electron": "^20.0.3",
 		"svelte-preprocess": "^4.10.7"
 	}
 }

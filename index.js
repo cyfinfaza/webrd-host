@@ -1,6 +1,7 @@
 const { app, BrowserWindow, desktopCapturer, ipcMain } = require("electron");
-const { mouse, Point, screen } = require("@nut-tree/nut-js");
+const { mouse, Point, screen, keyboard } = require("@nut-tree/nut-js");
 const { Button } = require("@nut-tree/nut-js");
+const { mapToKey } = require("./src/lib/keyMapping");
 
 let screenWidth = 0;
 let screenHeight = 0;
@@ -20,7 +21,7 @@ const createWindow = () => {
 		win.loadURL("http://localhost:5184/");
 	} else {
 		// load your file
-		win.loadFile("dist/index.html");
+		win.loadFile("ui-build/index.html");
 	}
 
 	// setTimeout(() => {
@@ -58,33 +59,53 @@ ipcMain.handle("requestSources", async () => {
 
 const buttonState = { LEFT: 0, RIGHT: 0, MIDDLE: 0 };
 
-ipcMain.handle("handleMouse", async (event, mouseEventString) => {
-	const mouseEvent = JSON.parse(mouseEventString);
-	const target = new Point(
-		mouseEvent.x * screenWidth,
-		mouseEvent.y * screenHeight
-	);
-	mouse.setPosition(target);
-	const newButtonState = {
-		LEFT: mouseEvent.buttons % 2,
-		RIGHT: (mouseEvent.buttons >> 1) % 2,
-		MIDDLE: (mouseEvent.buttons >> 2) % 2,
-	};
-	// console.log(newButtonState);
-	for (let buttonIndex in Object.keys(newButtonState)) {
-		const button = Object.keys(newButtonState)[buttonIndex];
-		// console.log(button, newButtonState[button], buttonState[button]);
-		if (newButtonState[button] !== buttonState[button]) {
-			if (newButtonState[button]) {
-				mouse.pressButton(Button[button]);
-			} else {
-				mouse.releaseButton(Button[button]);
+ipcMain.handle("handleMouse", async (event, mouseEvent) => {
+	if (typeof mouseEvent.x === "number" && typeof mouseEvent.y === "number") {
+		const target = new Point(
+			mouseEvent.x * screenWidth,
+			mouseEvent.y * screenHeight
+		);
+		await mouse.setPosition(target);
+	}
+	if (typeof mouseEvent.buttons === "number") {
+		const newButtonState = {
+			LEFT: mouseEvent.buttons % 2,
+			RIGHT: (mouseEvent.buttons >> 1) % 2,
+			MIDDLE: (mouseEvent.buttons >> 2) % 2,
+		};
+		// console.log(newButtonState);
+		for (let buttonIndex in Object.keys(newButtonState)) {
+			const button = Object.keys(newButtonState)[buttonIndex];
+			// console.log(button, newButtonState[button], buttonState[button]);
+			if (newButtonState[button] !== buttonState[button]) {
+				if (newButtonState[button]) {
+					mouse.pressButton(Button[button]);
+				} else {
+					mouse.releaseButton(Button[button]);
+				}
+				buttonState[button] = newButtonState[button];
 			}
-			buttonState[button] = newButtonState[button];
 		}
 	}
+	if (mouseEvent.deltaY) await mouse.scrollDown(mouseEvent.deltaY);
+	if (mouseEvent.deltaX) await mouse.scrollLeft(mouseEvent.deltaX);
 });
+
+ipcMain.handle("handleKeyboard", async (event, keyboardEvent) => {
+	// console.log("Keyboard event", keyboardEvent);
+	const key = mapToKey(keyboardEvent.key);
+	if (keyboardEvent.down) {
+		// console.log("Pressing key", key);
+		keyboard.pressKey(key);
+	} else if (true && !keyboardEvent.down) {
+		// console.log("Releasing key", key);
+		keyboard.releaseKey(key);
+	}
+	// console.log(pressedKeys);
+});
+
 (async () => {
+	keyboard.config.autoDelayMs = 0;
 	screenWidth = await screen.width();
 	screenHeight = await screen.height();
 	console.log(`Screen dimensions: ${screenWidth}x${screenHeight}`);

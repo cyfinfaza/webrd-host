@@ -8,6 +8,9 @@ export default defineConfig({
 		port: 5184,
 		strictPort: true,
 	},
+	build: {
+		outDir: "ui-build",
+	},
 	plugins: [
 		svelte({
 			preprocess: preprocess(),
