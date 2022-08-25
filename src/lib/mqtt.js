@@ -48,7 +48,7 @@ export function mqttConnect(onMessageArrived) {
 			useSSL: config.useSsl,
 			willMessage: willMessage,
 			reconnect: true,
-			keepAliveInterval: 1,
+			keepAliveInterval: 65,
 			// mqttVersion: 3,
 			// uris: ["wss://mq03.cy2.me/mqtt"],
 		};

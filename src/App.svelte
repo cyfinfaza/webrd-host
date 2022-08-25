@@ -52,6 +52,17 @@
 
 		connections[offer.from] = pc;
 		connections = connections;
+		pc.ondatachannel = (e) => {
+			console.log("WebRTC: Data channel established", e);
+			e.channel.onopen = () => {
+				console.log("WebRTC: Data channel open");
+			};
+			e.channel.onmessage = (e) => {
+				// console.log("WebRTC: Data channel message", e);
+				if ($hostConfig.acceptMouseInput ?? false)
+					ipcRenderer.invoke("handleMouse", e.data);
+			};
+		};
 		pc.onicecandidate = (e) => {
 			console.log("WebRTC: Sending new local ICE candidate", e);
 			mqttClient.send(
@@ -199,6 +210,9 @@
 					bind:value={$hostConfig.deviceName}
 					placeholder="Computer"
 				/>
+			</Labeled>
+			<Labeled label="Accept Mouse Input? ">
+				<input type="checkbox" bind:checked={$hostConfig.acceptMouseInput} />
 			</Labeled>
 		</div>
 	</div>

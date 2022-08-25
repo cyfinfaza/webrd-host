@@ -10,6 +10,7 @@
 	"author": "cyfinfaza",
 	"license": "ISC",
 	"dependencies": {
+		"@nut-tree/nut-js": "^2.2.0",
 		"@sveltejs/vite-plugin-svelte": "^1.0.2",
 		"concurrently": "^7.3.0",
 		"cross-env": "^7.0.3",
