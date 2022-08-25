@@ -1,0 +1,18 @@
+
+[8/24/2022, 1:23:01 PM]
+  Command: "vite build".
+  The main field in package.json may be incorrect, which causes the App to fail to start.
+  File build path: "C:/Users/cyfin/Documents/Websites not for onedrive/webrd/dist/electron/main.js".
+  Recommended main value: "C:/Users/cyfin/Documents/Websites not for onedrive/webrd/dist/electron/main.js".
+
+[8/24/2022, 1:27:20 PM]
+  Command: "vite build".
+  The main field in package.json may be incorrect, which causes the App to fail to start.
+  File build path: "C:/Users/cyfin/Documents/Websites not for onedrive/webrd/dist/electron/main.js".
+  Recommended main value: "C:/Users/cyfin/Documents/Websites not for onedrive/webrd/dist/electron/main.js".
+
+[8/24/2022, 1:33:10 PM]
+  Command: "vite build".
+  The main field in package.json may be incorrect, which causes the App to fail to start.
+  File build path: "C:/Users/cyfin/Documents/Websites not for onedrive/webrd/dist/electron/main.js".
+  Recommended main value: "C:/Users/cyfin/Documents/Websites not for onedrive/webrd/dist/electron/main.js".

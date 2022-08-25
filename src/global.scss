@@ -1,0 +1,25 @@
+button,
+input,
+select {
+	padding: 8px;
+	border-radius: 8px;
+	background: var(--fg);
+	border: 2px solid var(--fg-2);
+	outline: none;
+	font-family: inherit;
+	color: inherit;
+	transition: 120ms;
+	&:focus-visible {
+		border-color: var(--accent);
+	}
+	&:hover {
+		background: var(--accent-hover);
+	}
+	&:active {
+		transform: translateY(1px);
+	}
+}
+
+button {
+	cursor: pointer;
+}
