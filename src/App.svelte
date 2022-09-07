@@ -8,6 +8,7 @@
 		connected,
 		mqttConfig,
 		mqttClient,
+		disconnect,
 	} from "./lib/mqtt";
 
 	import BooleanIndicator from "./components/BooleanIndicator.svelte";
@@ -205,6 +206,7 @@
 			</Labeled>
 			<button on:click={() => mqttConnect(onMessageArrived)}>Connect now</button
 			>
+			<button on:click={() => disconnect()}>Disconnect now</button>
 		</div>
 	</div>
 	<div>

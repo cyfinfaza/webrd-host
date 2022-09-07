@@ -23,11 +23,7 @@ export let mqttClient;
  */
 export function mqttConnect(onMessageArrived) {
 	return new Promise((resolve, reject) => {
-		try {
-			mqttClient.disconnect();
-		} catch (e) {
-			console.log(e);
-		}
+		disconnect();
 		console.log("MQTT: Connecting as " + clientID);
 		const config = get(mqttConfig);
 		mqttClient = new Paho.Client(
@@ -86,6 +82,15 @@ export function mqttConnect(onMessageArrived) {
 		}
 		mqttClient.connect(connectionOptions);
 	});
+}
+
+export async function disconnect() {
+	try {
+		mqttClient.send(BASE_TOPIC + "advertise/" + clientID, new ArrayBuffer(0));
+		mqttClient.disconnect();
+	} catch (e) {
+		console.log(e);
+	}
 }
 
 hostConfig.subscribe((config) => {
